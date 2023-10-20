@@ -6,6 +6,7 @@ import model.ExpenseTrackerModel;
 import view.ExpenseTrackerView;
 import model.Transaction;
 import controller.InputValidation;
+import java.util.List;
 
 public class ExpenseTrackerApp {
 
@@ -14,7 +15,8 @@ public class ExpenseTrackerApp {
     // Create MVC components
     ExpenseTrackerModel model = new ExpenseTrackerModel();
     ExpenseTrackerView view = new ExpenseTrackerView();
-    ExpenseTrackerController controller = new ExpenseTrackerController(model, view);
+    InputValidation ib=new InputValidation();
+    ExpenseTrackerController controller = new ExpenseTrackerController(model, view,ib);
 
     // Initialize view
     view.setVisible(true);
@@ -32,6 +34,17 @@ public class ExpenseTrackerApp {
         JOptionPane.showMessageDialog(view, "Invalid amount or category entered");
         view.toFront();
       }
+    });
+
+
+
+    //add Transaction button
+    view.getFilterBtn().addActionListener(e ->{
+      double amount = view.getAmountField();
+      String category = view.getCategoryField();
+     controller.filterByTheAmountandCategory(amount,category);
+
+
     });
 
   }

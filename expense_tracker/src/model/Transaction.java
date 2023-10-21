@@ -21,19 +21,19 @@ public class Transaction {
   }
 
 
-
   public String getCategory() {
-    return category;
+
+    return new String(category);
   }
 
 
   public String getTimestamp() {
-    return timestamp;
+    return new String(timestamp);
   }
 
   private String generateTimestamp() {
     SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");  
-    return sdf.format(new Date());
+    return new String(sdf.format(new Date()));
   }
 
 }

@@ -1,12 +1,14 @@
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
+import controller.AmountFilter;
+import controller.CategoryFilter;
 import controller.ExpenseTrackerController;
 import model.ExpenseTrackerModel;
 import view.ExpenseTrackerView;
 import model.Transaction;
 import controller.InputValidation;
 import java.util.List;
+
 
 public class ExpenseTrackerApp {
 
@@ -15,8 +17,7 @@ public class ExpenseTrackerApp {
     // Create MVC components
     ExpenseTrackerModel model = new ExpenseTrackerModel();
     ExpenseTrackerView view = new ExpenseTrackerView();
-    InputValidation ib=new InputValidation();
-    ExpenseTrackerController controller = new ExpenseTrackerController(model, view,ib);
+    ExpenseTrackerController controller = new ExpenseTrackerController(model, view);
 
     // Initialize view
     view.setVisible(true);
@@ -42,8 +43,28 @@ public class ExpenseTrackerApp {
     view.getFilterBtn().addActionListener(e ->{
       double amount = view.getAmountField();
       String category = view.getCategoryField();
-     controller.filterByTheAmountandCategory(amount,category);
 
+      // set the relevant strategy object here
+
+      if(InputValidation.isValidAmount(amount) && InputValidation.isValidCategory(category)){
+        //Call the filter for amount and category
+      }
+      else if(InputValidation.isValidAmount(amount)){
+        AmountFilter am = new AmountFilter(amount);
+        controller.setFilterStrategy(am);
+      }
+      else{
+        CategoryFilter am = new CategoryFilter(category);
+        controller.setFilterStrategy(am);
+      
+      }
+
+      // execute the strategy method
+
+      List<Integer> t1 = controller.run_filter(model.getTransactions());
+      // System.out.println(t1.size());
+      view.showFilter(t1);
+      
 
     });
 

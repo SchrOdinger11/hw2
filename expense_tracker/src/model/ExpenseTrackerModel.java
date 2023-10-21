@@ -21,7 +21,9 @@ public class ExpenseTrackerModel {
   }
 
   public List<Transaction> getTransactions() {
-    return transactions;
+
+    //make a copy of the private list to prevent external unwanted modifications to the list directly.
+    return new ArrayList<>(transactions);
   }
 
 }

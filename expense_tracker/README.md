@@ -21,5 +21,10 @@ This code is compiled with ```openjdk 17.0.7 2023-04-18```. Please update your J
 
 ### Add Transaction
 
+Enter a value in the ```amount``` field and the ```category``` field. <br>
+The amount should be between 0 and 1000. <br>
+Category should be from food, travel, bills, entertainment or other. <br>
+Click the ```Add Transaction``` button to add the transaction to the table.  
+
 
 ### Apply Filter 

@@ -1,8 +1,8 @@
 package view;
-
 import javax.swing.*;
 import javax.swing.JFormattedTextField.AbstractFormatterFactory;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import controller.ExpenseTrackerController;
 import controller.InputValidation;
@@ -20,15 +20,15 @@ public class ExpenseTrackerView extends JFrame {
 
   private JTable transactionsTable;
   private JButton addTransactionBtn;
-  JButton applyFilterBtn;
+  private JButton applyFilterBtn;
   private JFormattedTextField amountField;
   private JTextField categoryField;
   private DefaultTableModel model;
   
-private String selectedAmountFilter = "All";
-private String selectedCategoryFilter = "All";
-JComboBox<String> categoryFilterComboBox;
- JComboBox<String> amountFilterComboBox;
+  private String selectedAmountFilter = "All";
+  private String selectedCategoryFilter = "All";
+  JComboBox<String> categoryFilterComboBox;
+  JComboBox<String> amountFilterComboBox;
 
 //List<Transaction> transactions = model.getTransactions();
 
@@ -88,9 +88,9 @@ JComboBox<String> categoryFilterComboBox;
 
 
   // Add action listeners to the combo boxes and button
-// amountFilterComboBox.addActionListener(e -> handleAmountFilterSelection((String) amountFilterComboBox.getSelectedItem()));
-// categoryFilterComboBox.addActionListener(e -> handleCategoryFilterSelection((String) categoryFilterComboBox.getSelectedItem()));
-// applyFilterBtn.addActionListener(e -> applyFilter(transactions,selectedAmountFilter,selectedCategoryFilter));
+  // amountFilterComboBox.addActionListener(e -> handleAmountFilterSelection((String) amountFilterComboBox.getSelectedItem()));
+  // categoryFilterComboBox.addActionListener(e -> handleCategoryFilterSelection((String) categoryFilterComboBox.getSelectedItem()));
+  // applyFilterBtn.addActionListener(e -> applyFilter(transactions,selectedAmountFilter,selectedCategoryFilter));
 
     // Set frame properties
     setSize(400, 300);
@@ -129,50 +129,29 @@ JComboBox<String> categoryFilterComboBox;
       transactionsTable.updateUI();
   
     }  
-  
- public void applyFilter(List<Transaction> transactions, String amountFilter, String categoryFilter) {
-    List<Transaction> filteredTransactions = filterTransactions(transactions, amountFilter, categoryFilter);
-   
-    
-   refreshTable(filteredTransactions);
-}
-private List<Transaction> filterTransactions(List<Transaction> transactions, String amountFilter, String categoryFilter) {
-    List<Transaction> filteredTransactions = new ArrayList<>();
 
-    for (Transaction transaction : transactions) {
-       System.out.println("bhaaa yaar");
-        if (isAmountFilterMatch(transaction, amountFilter) && isCategoryFilterMatch(transaction, categoryFilter)) {
-         
-            filteredTransactions.add(transaction);
+  public void showFilter(List <Integer> fil_lis){
+
+
+    transactionsTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+      @Override
+      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                                                     boolean hasFocus, int row, int column) {
+        Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+        if (fil_lis.contains(row)) {
+          c.setBackground(new Color(173, 255, 168));
+        } else {
+          c.setBackground(table.getBackground());
         }
-    }
+        return c;
+      }
+    });
 
-    return filteredTransactions;
-}
-
-private boolean isAmountFilterMatch(Transaction transaction, String amountFilter) {
-  
-   System.out.println("bhaiiii yaar");
-    if ("All".equals(amountFilter)) {
-        System.out.println("bhaiiii");
-        return true;
-    } else if ("Less than 100".equals(amountFilter) && transaction.getAmount() < 100) {
-        System.out.println("bhaiiii "+transaction.getAmount());
-        return true;
-    } else if ("More than 100".equals(amountFilter) && transaction.getAmount() > 100) {
-        System.out.println("bhaiiii");
-        return true;
-    }
-
-    return false;
-}
-
-private boolean isCategoryFilterMatch(Transaction transaction, String categoryFilter) {
-    return "All".equals(categoryFilter) || transaction.getCategory().equals(categoryFilter);
-}
+    
 
 
-
+  }
 
   
   

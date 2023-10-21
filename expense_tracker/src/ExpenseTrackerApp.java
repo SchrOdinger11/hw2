@@ -43,29 +43,48 @@ public class ExpenseTrackerApp {
     view.getFilterBtn().addActionListener(e ->{
       double amount = view.getAmountField();
       String category = view.getCategoryField();
+      System.out.println("Hello");
+      System.out.println(amount);
+      System.out.println(category);
 
       // set the relevant strategy object here
 
-      if(InputValidation.isValidAmount(amount) && InputValidation.isValidCategory(category)){
-        //Call the filter for amount and category
+      if(amount != 0 && (category != null && !category.trim().isEmpty())){
+
+        JOptionPane.showMessageDialog(view, "Only one filter can be applied at a time!");
+        view.toFront();
+
       }
-      else if(InputValidation.isValidAmount(amount)){
-        AmountFilter am = new AmountFilter(amount);
-        controller.setFilterStrategy(am);
+      else if(amount!=0 && (category == null || category.trim().isEmpty())){
+
+        if(InputValidation.isValidAmount(amount)){
+
+          AmountFilter am = new AmountFilter(amount);
+          controller.setFilterStrategy(am);
+          controller.applyFilter(model.getTransactions());
+        }
+        else{
+          JOptionPane.showMessageDialog(view, "Invalid amount entered!");
+          view.toFront();
+
+        }
       }
       else{
-        CategoryFilter am = new CategoryFilter(category);
-        controller.setFilterStrategy(am);
-      
+
+        if(InputValidation.isValidCategory(category)){
+                  
+          CategoryFilter am = new CategoryFilter(category);
+          controller.setFilterStrategy(am);
+          controller.applyFilter(model.getTransactions());
+
+        }
+        else{
+          JOptionPane.showMessageDialog(view, "Invalid category entered!");
+          view.toFront();
+
+        }
+
       }
-
-      // execute the strategy method
-
-      List<Integer> t1 = controller.run_filter(model.getTransactions());
-      // System.out.println(t1.size());
-      view.showFilter(t1);
-      
-
     });
 
   }

@@ -1,28 +1,31 @@
 package controller;
-
 import view.ExpenseTrackerView;
-
 import java.util.ArrayList;
 import java.util.List;
-
-
-
 import model.ExpenseTrackerModel;
 import model.Transaction;
+
+
 public class ExpenseTrackerController {
   
   private  ExpenseTrackerModel model;
   private ExpenseTrackerView view;
-  InputValidation inputValidation;
+  private TransactionFilter tr_filter;
 
-  public ExpenseTrackerController(ExpenseTrackerModel model, ExpenseTrackerView view, InputValidation in) {
+
+  public ExpenseTrackerController(ExpenseTrackerModel model, ExpenseTrackerView view) {
     this.model = model;
     this.view = view;
-    inputValidation=in;
 
     // Set up view event handlers
   }
  
+  public void setFilterStrategy(TransactionFilter tf){
+
+    this.tr_filter = tf;
+    
+  }
+
 
   public void refresh() {
 
@@ -33,22 +36,11 @@ public class ExpenseTrackerController {
     view.refreshTable(transactions);
 
   }
-  public void filterByTheAmountandCategory(double amount, String cat){
-    if(inputValidation.isValidAmount(amount) && inputValidation.isValidCategory(cat)){
-      //Call the filter for amount and category
-    }
-    else if(inputValidation.isValidAmount(amount)){
-      AmountFilter am=new AmountFilter(amount);
-     List<Transaction> t1= am.filter(model.getTransactions());
-     System.out.println(t1.size());
-     //paintt1
-     
-    }
-    else{
-       CategoryFilter am=new CategoryFilter(cat);
-       List<Transaction>t2=am.filter(model.getTransactions());
-       //paintt1
-    }
+  public void applyFilter(List <Transaction> li){
+
+    List <Integer> ret_li = tr_filter.filter(li);
+    view.showFilter(ret_li);
+    refresh();
 
   }
 

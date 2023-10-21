@@ -6,19 +6,24 @@ import java.util.List;
 import model.Transaction;
 
 public class AmountFilter implements TransactionFilter{
+
     double amount;
-    AmountFilter(double amount){
+    public AmountFilter(double amount){
         this.amount =amount;
     }
-   public List<Transaction> filter(List<Transaction> transactions){
 
-        List<Transaction> fileTransactions=new ArrayList<>();
+   public List <Integer> filter(List<Transaction> transactions){
 
-        for(Transaction t: transactions){
-            if(t.getAmount()==amount){
-                fileTransactions.add(t);
+        List <Integer> fileTransactions=new ArrayList<>();
+
+        for (int i = 0; i < transactions.size(); i++) {
+
+            if(transactions.get(i).getAmount()==amount){
+                fileTransactions.add(i);
             }
+
         }
+
         return fileTransactions;
     }
 }

@@ -19,7 +19,7 @@ This code is compiled with ```openjdk 17.0.7 2023-04-18```. Please update your J
 
 ## Features
 
-# Add Transaction
+### Add Transaction
 
 
-# Apply Filter 
+### Apply Filter 

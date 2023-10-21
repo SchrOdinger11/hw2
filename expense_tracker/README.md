@@ -28,3 +28,8 @@ Click the ```Add Transaction``` button to add the transaction to the table.
 
 
 ### Apply Filter 
+Applies filter to the displayed transaction table. <br>
+To this end, the input from ```amount``` field and the ```category``` field is taken to apply filter on the transactions.<br>
+Care to be taken that both amount and category are not entered for applying filter. Only one of the two fields must be entered.<br>
+The filtered transactions is higlighted in green and displayed to the user.
+
